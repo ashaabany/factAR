@@ -31,7 +31,7 @@ public class ComputerVisionQuickstarts {
          * Set a string variable equal to the path of a local image. The image path
          * below is a relative path.
          */
-        String pathToLocalImage = "src\\main\\resources\\rabbits_eat_carrots.jpg";
+        String pathToLocalImage = "src\\main\\resources\\boobs.jpg";
 
         // This list defines the features to be extracted from the image.
         List<VisualFeatureTypes> featuresToExtractFromLocalImage = new ArrayList<>();

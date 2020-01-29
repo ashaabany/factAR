@@ -3,7 +3,7 @@ plugins {
     application
 }
 application {
-    mainClassName = "BingWebSearch"
+    mainClassName = "ComputerVisionQuickstarts"
 }
 repositories {
     mavenCentral()
