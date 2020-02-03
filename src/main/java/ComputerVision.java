@@ -35,17 +35,13 @@ public class ComputerVision {
          * Set a string variable equal to the path of a local image. The image path
          * below is a relative path.
          */
-        String pathToLocalImage = "src\\main\\resources\\man_titties.jpg";
+        String pathToLocalImage = "src\\main\\resources\\rabbits_eat_carrots.jpg";
 
         // This list defines the features to be extracted from the image.
         List<VisualFeatureTypes> featuresToExtractFromLocalImage = new ArrayList<>();
         featuresToExtractFromLocalImage.add(VisualFeatureTypes.ADULT);
         featuresToExtractFromLocalImage.add(VisualFeatureTypes.CATEGORIES);
         featuresToExtractFromLocalImage.add(VisualFeatureTypes.TAGS);
-//        featuresToExtractFromLocalImage.add(VisualFeatureTypes.DESCRIPTION);
-//        featuresToExtractFromLocalImage.add(VisualFeatureTypes.FACES);
-//        featuresToExtractFromLocalImage.add(VisualFeatureTypes.COLOR);
-//        featuresToExtractFromLocalImage.add(VisualFeatureTypes.IMAGE_TYPE);
 
         // Need a byte array for analyzing a local image.
         File rawImage = new File(pathToLocalImage);

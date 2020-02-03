@@ -6,8 +6,8 @@ import com.google.gson.Gson;
 
 public class BingWebSearch {
 
-    // TODO: remove key before uploading to github
-    static String subscriptionKey = "301e444517084ed891918d2a31c17f3a";
+    // TODO: add API key for functionality
+    static String subscriptionKey = "API key removed to protect product integrity";
     static String host = "https://westus2.api.cognitive.microsoft.com/";
     static String path = "/bing/v7.0/search";
     static String searchTerm = "fact about tree";
