@@ -3,19 +3,42 @@ import java.util.*;
 import java.io.*;
 import javax.net.ssl.HttpsURLConnection;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 
 public class BingWebSearch {
 
     // TODO: remove key before uploading to github
     static String subscriptionKey = "301e444517084ed891918d2a31c17f3a";
-    static String host = "https://api.cognitive.microsoft.com";
+    static String host = "https://westus2.api.cognitive.microsoft.com/";
     static String path = "/bing/v7.0/search";
-    static String searchTerm = "fun facts about gleugh";
+    static String searchTerm = "fact about tree";
 
-    public static SearchResults SearchWeb (String searchQuery) throws Exception {
+    public static void main (String[] args) {
+        // Confirm the subscriptionKey is valid.
+        if (subscriptionKey.length() != 32) {
+            System.out.println("Invalid Bing Search API subscription key!");
+            System.out.println("Please paste yours into the source code.");
+            System.exit(1);
+        }
+
+        SearchResults webSearchResults = null;
+        try {
+            webSearchResults = SearchWeb(searchTerm);
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
+            System.exit(1);
+        }
+
+        Map json = new Gson().fromJson(webSearchResults.jsonResponse, Map.class);
+        Map webPages = (Map)json.get("webPages");
+        ArrayList value = (ArrayList)webPages.get("value");
+        Map result1 = (Map)value.get(0);
+        if ((boolean)result1.get("isFamilyFriendly"))
+            System.out.println("Did you know?\n" + result1.get("snippet") + "\n\nFind out more at: " + result1.get("url"));
+        else
+            System.out.println("Sorry the results were innapropriate.");
+    }
+
+    private static SearchResults SearchWeb (String searchQuery) throws Exception {
         // Construct the URL.
         URL url = new URL(host + path + "?q=" +  URLEncoder.encode(searchQuery, "UTF-8"));
 
@@ -42,44 +65,12 @@ public class BingWebSearch {
         return results;
     }
 
-    public static String prettify(String json_text) {
-        JsonParser parser = new JsonParser();
-        JsonObject json = parser.parse(json_text).getAsJsonObject();
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        return gson.toJson(json);
-    }
-
-    public static void main (String[] args) {
-        // Confirm the subscriptionKey is valid.
-        if (subscriptionKey.length() != 32) {
-            System.out.println("Invalid Bing Search API subscription key!");
-            System.out.println("Please paste yours into the source code.");
-            System.exit(1);
+    private static class SearchResults{
+        HashMap<String, String> relevantHeaders;
+        String jsonResponse;
+        SearchResults(HashMap<String, String> headers, String json) {
+            relevantHeaders = headers;
+            jsonResponse = json;
         }
-
-        // Call the SearchWeb method and print the response.
-        try {
-            System.out.println("Searching the Web for: " + searchTerm);
-            SearchResults result = SearchWeb(searchTerm);
-            System.out.println("\nRelevant HTTP Headers:\n");
-            for (String header : result.relevantHeaders.keySet())
-                System.out.println(header + ": " + result.relevantHeaders.get(header));
-            System.out.println("\nJSON Response:\n");
-            System.out.println(prettify(result.jsonResponse));
-        }
-        catch (Exception e) {
-            e.printStackTrace(System.out);
-            System.exit(1);
-        }
-    }
-
-}
-
-class SearchResults{
-    HashMap<String, String> relevantHeaders;
-    String jsonResponse;
-    SearchResults(HashMap<String, String> headers, String json) {
-        relevantHeaders = headers;
-        jsonResponse = json;
     }
 }
